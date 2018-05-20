@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  consul:
+    image: consul
+    ports:
+      - "8500:8500"
+    entrypoint:
+    - sh
+    - -c
+    - 'CONSUL_UI_BETA=true consul agent -client=0.0.0.0 -dev -ui'
+  nginx:
+    image: rssparse:nginx
+    ports:
+      - "443:443"
+      - "80:80"
+    depends_on:
+      - php-fpm
+  php-fpm:
+    image: rssparse:php-fpm
