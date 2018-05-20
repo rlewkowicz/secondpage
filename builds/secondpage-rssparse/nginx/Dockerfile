@@ -6,8 +6,6 @@ COPY builds/secondpage-rssparse/nginx/nginx.conf /etc/nginx/
 COPY ./secondpage-rssparse /var/www
 COPY builds/secondpage-rssparse/nginx/sites /etc/nginx/sites-available
 
-run chown -R www-data /var/www/
-
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
 ARG CHANGE_SOURCE=false
@@ -21,7 +19,7 @@ RUN apk update \
     && apk add --no-cache bash \
     && adduser -D -H -u 1000 -s /bin/bash www-data
 
-ARG PHP_UPSTREAM_CONTAINER=php-fpm
+ARG PHP_UPSTREAM_CONTAINER=rssparse-php-fpm
 ARG PHP_UPSTREAM_PORT=9000
 
 # Set upstream conf and remove the default conf

@@ -9,12 +9,12 @@ services:
     - sh
     - -c
     - 'CONSUL_UI_BETA=true consul agent -client=0.0.0.0 -dev -ui'
-  nginx:
+  rssparse-nginx:
     image: rssparse:nginx
     ports:
       - "443:443"
       - "80:80"
     depends_on:
-      - php-fpm
-  php-fpm:
+      - rssparse-php-fpm
+  rssparse-php-fpm:
     image: rssparse:php-fpm
