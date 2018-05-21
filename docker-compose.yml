@@ -1,6 +1,7 @@
 version: '2'
 
 services:
+  #core services
   consul:
     image: consul
     ports:
@@ -9,12 +10,54 @@ services:
     - sh
     - -c
     - 'CONSUL_UI_BETA=true consul agent -client=0.0.0.0 -dev -ui'
+  rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+  cassandra:
+    image: cassandra
+    ports:
+      - "7000:7000"
+      - "9042:9042"
+      - "9160:9160"
+      - "9142:9142"
+
+  #rssparse
   rssparse-nginx:
-    image: rssparse:nginx
+    image: rlewkowicz/rssparse:nginx-1.0.0
+    # ports:
+    #   - "443:443"
+    #   - "80:80"
+    depends_on:
+      - rssparse-php-fpm
+  rssparse-php-fpm:
+    image: rlewkowicz/rssparse:php-fpm-1.0.0
+
+#api
+  api-nginx:
+    image: rlewkowicz/api:nginx-1.0.0
     ports:
       - "443:443"
       - "80:80"
     depends_on:
-      - rssparse-php-fpm
-  rssparse-php-fpm:
-    image: rssparse:php-fpm
+      - api-php-fpm
+  api-php-fpm:
+    image: rlewkowicz/api:php-fpm-1.0.0
+
+  #render
+  render:
+    image: render
+    entrypoint:
+    - sh
+    - -c
+    - 'cd /secondpage-render && npm start'
+
+  #python-utils
+  python-utils:
+    image: python-utils
+    entrypoint:
+    - sh
+    - -c
+    - 'tail -f /etc/hosts'
+    volumes:
+    - ./secondpage-pythonutils/:/secondpage-pythonutils/
