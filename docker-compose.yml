@@ -3,7 +3,8 @@ version: '2.1'
 services:
   #core services
   consul:
-    dns: ${DNS:-8.8.8.8}
+    networks:
+    - secondpage_default
     image: consul
     ports:
       - "8500:8500"
@@ -12,12 +13,14 @@ services:
     - -c
     - 'CONSUL_UI_BETA=true consul agent -client=0.0.0.0 -dev -ui'
   rabbit:
-    dns: ${DNS:-8.8.8.8}
+    networks:
+    - secondpage_default
     image: rabbitmq:3-management
     ports:
       - "15672:15672"
   cassandra:
-    dns: ${DNS:-8.8.8.8}
+    networks:
+    - secondpage_default
     image: cassandra
     ports:
       - "7000:7000"
@@ -27,7 +30,8 @@ services:
 
   #rssparse
   rssparse-nginx:
-    dns: ${DNS:-8.8.8.8}
+    networks:
+    - secondpage_default
     image: rlewkowicz/rssparse:nginx-1.0.0
     # ports:
     #   - "443:443"
@@ -35,12 +39,14 @@ services:
     depends_on:
       - rssparse-php-fpm
   rssparse-php-fpm:
+    networks:
+    - secondpage_default
     image: rlewkowicz/rssparse:php-fpm-1.0.0
 
-
-#api
+  #api
   api-nginx:
-    dns: ${DNS:-8.8.8.8}
+    networks:
+    - secondpage_default
     image: rlewkowicz/api:nginx-1.0.0
     volumes:
     - ./secondpage-api:/var/www
@@ -52,11 +58,14 @@ services:
   api-php-fpm:
     volumes:
     - ./secondpage-api:/var/www
+    networks:
+    - secondpage_default
     image: rlewkowicz/api:php-fpm-1.0.0
 
   #render
   render:
-    dns: ${DNS:-8.8.8.8}
+    networks:
+    - secondpage_default
     image: render
     entrypoint:
     - sh
@@ -65,7 +74,8 @@ services:
 
   #python-utils
   python-utils:
-    dns: ${DNS:-8.8.8.8}
+    networks:
+    - secondpage_default
     image: python-utils
     entrypoint:
     - sh
@@ -73,3 +83,9 @@ services:
     - 'tail -f /etc/hosts'
     volumes:
     - ./secondpage-pythonutils/:/secondpage-pythonutils/
+
+networks:
+  secondpage_default:
+    ipam:
+      config:
+        - subnet: 192.168.5.0/24
