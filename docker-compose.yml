@@ -18,6 +18,7 @@ services:
     image: rabbitmq:3-management
     ports:
       - "15672:15672"
+      - "5672:5672"
   cassandra:
     networks:
     - secondpage_default
@@ -33,9 +34,9 @@ services:
     networks:
     - secondpage_default
     image: rlewkowicz/rssparse:nginx-1.0.0
-    # ports:
+    ports:
     #   - "443:443"
-    #   - "80:80"
+    - "8080:80"
     depends_on:
       - rssparse-php-fpm
   rssparse-php-fpm:
@@ -61,6 +62,8 @@ services:
     networks:
     - secondpage_default
     image: rlewkowicz/api:php-fpm-1.0.0
+    depends_on:
+      - consul
 
   #render
   render:
@@ -77,10 +80,12 @@ services:
     networks:
     - secondpage_default
     image: python-utils
+    depends_on:
+      - rssparse-nginx
     entrypoint:
     - sh
     - -c
-    - 'tail -f /etc/hosts'
+    - 'sleep 4 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
     volumes:
     - ./secondpage-pythonutils/:/secondpage-pythonutils/
 
