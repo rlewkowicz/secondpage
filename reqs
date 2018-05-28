@@ -1,0 +1,9 @@
+cassandra-driver
+bs4
+metadata_parser
+pika
+requests
+uuid
+newspaper3k
+gensim
+python-dotenv
