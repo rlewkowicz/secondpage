@@ -40,7 +40,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - './sbin/start-thriftserver.sh --hiveconf hive.server2.thrift.bind.host 0.0.0.0 --jars /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar --driver-class-path /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar && tail -f /etc/hosts'
+    - './sbin/start-thriftserver.sh --hiveconf hive.server2.thrift.bind.host 0.0.0.0 --jars /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar --driver-class-path /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar --packages datastax:spark-cassandra-connector:2.3.0-s_2.11 --conf spark.cassandra.connection.host=cassandra && ./sbin/start-all.sh --hiveconf hive.server2.thrift.bind.host 0.0.0.0 --jars /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar --driver-class-path /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar --packages datastax:spark-cassandra-connector:2.3.0-s_2.11 --conf spark.cassandra.connection.host=cassandra && tail -f /etc/hosts'
 
   #rssparse
   rssparse-nginx:
@@ -94,16 +94,15 @@ services:
   python-utils:
     networks:
     - secondpage_default
-    image: python-utils
+    image: rlewkowicz/python-utils-1.0.0
     depends_on:
       - rssparse-nginx
     entrypoint:
     - sh
     - -c
-    - 'sleep 4 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
-    volumes:
-    - ./secondpage-pythonutils/:/secondpage-pythonutils/
-
+    - 'sleep 4 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
 
 
 networks:
