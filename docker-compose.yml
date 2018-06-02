@@ -28,6 +28,19 @@ services:
       - "9042:9042"
       - "9160:9160"
       - "9142:9142"
+    #spark
+  spark:
+    networks:
+    - secondpage_default
+    image: spark
+    ports:
+      - "10000:10000"
+    depends_on:
+      - cassandra
+    entrypoint:
+    - sh
+    - -c
+    - './sbin/start-thriftserver.sh --hiveconf hive.server2.thrift.bind.host 0.0.0.0 --jars /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar --driver-class-path /usr/spark-cassandra-connector/spark-cassandra-connector/target/full/scala-2.11/spark-cassandra-connector-assembly-2.0.8-89-gd8a3eb4.jar && tail -f /etc/hosts'
 
   #rssparse
   rssparse-nginx:
@@ -70,6 +83,8 @@ services:
     networks:
     - secondpage_default
     image: render
+    ports:
+      - "3000:3000"
     entrypoint:
     - sh
     - -c
@@ -88,6 +103,8 @@ services:
     - 'sleep 4 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
     volumes:
     - ./secondpage-pythonutils/:/secondpage-pythonutils/
+
+
 
 networks:
   secondpage_default:
