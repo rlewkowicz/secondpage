@@ -52,10 +52,14 @@ services:
     - "8080:80"
     depends_on:
       - rssparse-php-fpm
+    volumes:
+    - ./secondpage-rssparse:/var/www
   rssparse-php-fpm:
     networks:
     - secondpage_default
     image: rlewkowicz/rssparse:php-fpm-1.0.0
+    volumes:
+    - ./secondpage-rssparse:/var/www
 
   #api
   api-nginx:
@@ -97,13 +101,144 @@ services:
     image: rlewkowicz/python-utils-1.0.0
     depends_on:
       - rssparse-nginx
+      - consul
     entrypoint:
     - sh
     - -c
-    - 'sleep 4 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
-
+  #python-utils
+  python-utils1:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  #python-utils
+  python-utils2:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  #python-utils
+  python-utils3:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  #python-utils
+  python-utils4:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  python-utils5:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  python-utils6:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  python-utils7:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  python-utils8:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 75 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  python-utils-watcher:
+    networks:
+    - secondpage_default
+    image: rlewkowicz/python-utils-1.0.0-sb
+    depends_on:
+      - rssparse-nginx
+      - consul
+    entrypoint:
+    - sh
+    - -c
+    - 'sleep 400 && watch -n140 python writetoqueue.py'
+    # - 'sleep 75 && curl rssparse-nginx/Lifestyle && tail -f /etc/hosts'
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
 
 networks:
   secondpage_default:
