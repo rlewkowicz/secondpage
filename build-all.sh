@@ -9,6 +9,8 @@
 
 #pythonutils
 (docker build -f builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0 &) &
+(docker build -f builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0-sb &) &
+
 
 #spark
 (docker build -f builds/secondpage-spark/Dockerfile . -t spark &) &
