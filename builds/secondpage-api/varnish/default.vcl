@@ -5,23 +5,23 @@ import std;
 import directors;
 
 backend server1 { # Define one backend
-    .host = "${BACKEND_HOST}"; # IP or Hostname of backend
-    .port = "${BACKEND_PORT}"; # Port Apache or whatever is listening
+    .host = "api-nginx"; # IP or Hostname of backend
+    .port = "80"; # Port Apache or whatever is listening
     .max_connections = 300; # That's it
 
     .probe = {
         #.url = "/"; # short easy way (GET /)
         # We prefer to only do a HEAD /
         .request =
-            "HEAD / HTTP/1.1"
-            "Host: ${BACKEND_HOST}"
+            "HEAD /index HTTP/1.1"
+            "Host: api-nginx"
             "Connection: close"
             "User-Agent: Varnish Health Probe";
 
-        .interval  = 5s; # check the health of each backend every 5 seconds
+        .interval  = 20s; # check the health of each backend every 5 seconds
         .timeout   = 1s; # timing out after 1 second.
-        .window    = 5;  # If 3 out of the last 5 polls succeeded the backend is considered healthy, otherwise it will be marked as sick
-        .threshold = 3;
+        .window    = 2;  # If 3 out of the last 5 polls succeeded the backend is considered healthy, otherwise it will be marked as sick
+        .threshold = 1;
     }
 
     .first_byte_timeout     = 300s;   # How long to wait before we receive a first byte from our backend?
@@ -35,13 +35,13 @@ acl purge {
     "127.0.0.1";
     "::1";
 }
-
-#acl editors {
+#
+# acl editors {
 #    # ACL to honor the "Cache-Control: no-cache" header to force a refresh but only from selected IPs
 #    "localhost";
 #    "127.0.0.1";
 #    "::1";
-#}
+# }
 
 sub vcl_init {
     # Called when VCL is loaded, before any requests pass through it.
@@ -57,6 +57,24 @@ sub vcl_recv {
     # Its purpose is to decide whether or not to serve the request, how to do it, and, if applicable,
     # which backend to use.
     # also used to modify the request
+
+    #vcl_recv - copy this code into the section called sub vcl_recv
+
+    #Normalise Accept-Encoding
+    if (req.http.Accept-Encoding) {
+      if (req.http.Accept-Encoding ~ "gzip") {
+      	set req.http.Accept-Encoding = "gzip";
+      } else if (req.http.Accept-Encoding ~ "deflate") {
+      	set req.http.Accept-Encoding = "deflate";
+      } else {
+      	unset req.http.Accept-Encoding;
+      }
+    }
+    #Varnish <= 3.x calls this "return (lookup);"
+    return (hash);
+
+    #vcl_backend_response - copy this code into the section called sub vcl_backend_response
+    #Varnish <= 3.x calls this "vcl_fetch" instead of "vcl_backend_response"
 
     set req.backend_hint = vdir.backend(); # send all traffic to the vdir director
 
@@ -80,14 +98,7 @@ sub vcl_recv {
     }
 
     # Only deal with "normal" types
-    if (req.method != "GET" &&
-        req.method != "HEAD" &&
-        req.method != "PUT" &&
-        req.method != "POST" &&
-        req.method != "TRACE" &&
-        req.method != "OPTIONS" &&
-        req.method != "PATCH" &&
-        req.method != "DELETE") {
+    if (req.method != "GET") {
         # Non-RFC2616 or CONNECT which is weird.
         return (pipe);
     }
@@ -240,6 +251,8 @@ sub vcl_hash {
     }
 }
 
+
+
 sub vcl_hit {
     # Called when a cache lookup is successful.
 
@@ -294,6 +307,20 @@ sub vcl_miss {
 # Handle the HTTP request coming from our backend
 sub vcl_backend_response {
     # Called after the response headers has been successfully retrieved from the backend.
+
+    unset beresp.http.Set-Cookie;
+
+    if (bereq.url ~ ".*\.(?:css|js|jpe?g|png|gif|ico|swf)(?=\?|&|$)") {
+    	set beresp.http.Cache-Control = "max-age=30"; #The number of seconds to cache in browser
+    	set beresp.ttl = 30s; #The number of seconds to cache inside Varnish
+
+    } else{
+    	 set beresp.ttl = 30s;
+    }
+
+    return (deliver);
+
+
 
     # Pause ESI request and remove Surrogate-Control header
     if (beresp.http.Surrogate-Control ~ "ESI/1.0") {
@@ -373,8 +400,8 @@ sub vcl_deliver {
     unset resp.http.X-Generator;
     unset resp.http.X-Debug-Token;
     unset resp.http.X-Debug-Token-Link;
-    set resp.http.Server = "${VARNISH_SERVER}";
-    set resp.http.X-Powered-By = "MSI<surya.kejawen@gmail.com>";
+    set resp.http.Server = "api-varnish";
+    set resp.http.X-Powered-By = "Ryan Lewkowicz";
 
     return (deliver);
 }

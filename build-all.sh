@@ -1,5 +1,10 @@
 #!/bin/sh
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
 #Api
+(docker build -f builds/secondpage-api/pagespeed/Dockerfile . -t rlewkowicz/api:pagespeed-1.0.0 &) &
 (docker build -f builds/secondpage-api/nginx/Dockerfile . -t rlewkowicz/api:nginx-1.0.0 &) &
 (docker build -f builds/secondpage-api/php-fpm/Dockerfile . -t rlewkowicz/api:php-fpm-1.0.0 &) &
 
@@ -8,8 +13,12 @@
 (docker build -f builds/secondpage-rssparse/nginx/Dockerfile . -t rlewkowicz/rssparse:nginx-1.0.0 &) &
 
 #pythonutils
-(docker build -f builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0 &) &
-(docker build -f builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0-sb &) &
+(
+sed -i "s/ENV=.*/ENV=dev/g" $DIR/secondpage-pythonutils/.env && \
+docker build -f $DIR/builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0 && \
+sed -i "s/ENV=.*/ENV=sb/g" $DIR/secondpage-pythonutils/.env && \
+docker build -f $DIR/builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0-sb
+) &
 
 
 #spark

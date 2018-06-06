@@ -65,17 +65,29 @@ services:
   api-nginx:
     networks:
     - secondpage_default
-    image: rlewkowicz/api:nginx-1.0.0
-    volumes:
-    - ./secondpage-api:/var/www
+    image: rlewkowicz/api:pagespeed-1.0.0
     ports:
-      - "443:443"
       - "80:80"
+    # volumes:
+    # - ./secondpage-api:/var/www
     depends_on:
       - api-php-fpm
+  # api-varnish:
+  #   networks:
+  #   - secondpage_default
+  #   image: rlewkowicz/api:varnish-1.0.0
+  #   ports:
+  #     - "443:443"
+  #     - "80:80"
+  #   depends_on:
+  #     - api-nginx
+  #   entrypoint:
+  #   - sh
+  #   - -c
+  #   - 'tail -f /etc/hosts'
   api-php-fpm:
-    volumes:
-    - ./secondpage-api:/var/www
+    # volumes:
+    # - ./secondpage-api:/var/www
     networks:
     - secondpage_default
     image: rlewkowicz/api:php-fpm-1.0.0
@@ -105,10 +117,10 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && tail -f /etc/hosts'
     # - 'sleep 75 &&  tail -f /etc/hosts'
-    # volumes:
-    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+    volumes:
+    - ./secondpage-pythonutils/:/secondpage-pythonutils/
   #python-utils
   python-utils1:
     networks:
@@ -183,90 +195,90 @@ services:
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
-  python-utils6:
-    networks:
-    - secondpage_default
-    image: rlewkowicz/python-utils-1.0.0-sb
-    depends_on:
-      - rssparse-nginx
-      - consul
-    entrypoint:
-    - sh
-    - -c
-    - 'sleep 75 && python consumefromqueue.py'
-    # - 'sleep 75 &&  tail -f /etc/hosts'
-    # volumes:
-    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
-  python-utils7:
-    networks:
-    - secondpage_default
-    image: rlewkowicz/python-utils-1.0.0-sb
-    depends_on:
-      - rssparse-nginx
-      - consul
-    entrypoint:
-    - sh
-    - -c
-    - 'sleep 75 && python consumefromqueue.py'
-    # - 'sleep 75 &&  tail -f /etc/hosts'
-    # volumes:
-    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
-  python-utils8:
-    networks:
-    - secondpage_default
-    image: rlewkowicz/python-utils-1.0.0-sb
-    depends_on:
-      - rssparse-nginx
-      - consul
-    entrypoint:
-    - sh
-    - -c
-    - 'sleep 75 && python consumefromqueue.py'
-    # - 'sleep 75 &&  tail -f /etc/hosts'
-    # volumes:
-    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
-  python-utils9:
-    networks:
-    - secondpage_default
-    image: rlewkowicz/python-utils-1.0.0-sb
-    depends_on:
-      - rssparse-nginx
-      - consul
-    entrypoint:
-    - sh
-    - -c
-    - 'sleep 75 && python consumefromqueue.py'
-    # - 'sleep 75 &&  tail -f /etc/hosts'
-    # volumes:
-    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
-  python-utils10:
-    networks:
-    - secondpage_default
-    image: rlewkowicz/python-utils-1.0.0-sb
-    depends_on:
-      - rssparse-nginx
-      - consul
-    entrypoint:
-    - sh
-    - -c
-    - 'sleep 75 && python consumefromqueue.py'
-    # - 'sleep 75 &&  tail -f /etc/hosts'
-    # volumes:
-    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
-  python-utils11:
-    networks:
-    - secondpage_default
-    image: rlewkowicz/python-utils-1.0.0-sb
-    depends_on:
-      - rssparse-nginx
-      - consul
-    entrypoint:
-    - sh
-    - -c
-    - 'sleep 75 && python consumefromqueue.py'
-    # - 'sleep 75 &&  tail -f /etc/hosts'
-    # volumes:
-    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  # python-utils6:
+  #   networks:
+  #   - secondpage_default
+  #   image: rlewkowicz/python-utils-1.0.0-sb
+  #   depends_on:
+  #     - rssparse-nginx
+  #     - consul
+  #   entrypoint:
+  #   - sh
+  #   - -c
+  #   - 'sleep 75 && python consumefromqueue.py'
+  #   # - 'sleep 75 &&  tail -f /etc/hosts'
+  #   # volumes:
+  #   # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  # python-utils7:
+  #   networks:
+  #   - secondpage_default
+  #   image: rlewkowicz/python-utils-1.0.0-sb
+  #   depends_on:
+  #     - rssparse-nginx
+  #     - consul
+  #   entrypoint:
+  #   - sh
+  #   - -c
+  #   - 'sleep 75 && python consumefromqueue.py'
+  #   # - 'sleep 75 &&  tail -f /etc/hosts'
+  #   # volumes:
+  #   # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  # python-utils8:
+  #   networks:
+  #   - secondpage_default
+  #   image: rlewkowicz/python-utils-1.0.0-sb
+  #   depends_on:
+  #     - rssparse-nginx
+  #     - consul
+  #   entrypoint:
+  #   - sh
+  #   - -c
+  #   - 'sleep 75 && python consumefromqueue.py'
+  #   # - 'sleep 75 &&  tail -f /etc/hosts'
+  #   # volumes:
+  #   # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  # python-utils9:
+  #   networks:
+  #   - secondpage_default
+  #   image: rlewkowicz/python-utils-1.0.0-sb
+  #   depends_on:
+  #     - rssparse-nginx
+  #     - consul
+  #   entrypoint:
+  #   - sh
+  #   - -c
+  #   - 'sleep 75 && python consumefromqueue.py'
+  #   # - 'sleep 75 &&  tail -f /etc/hosts'
+  #   # volumes:
+  #   # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  # python-utils10:
+  #   networks:
+  #   - secondpage_default
+  #   image: rlewkowicz/python-utils-1.0.0-sb
+  #   depends_on:
+  #     - rssparse-nginx
+  #     - consul
+  #   entrypoint:
+  #   - sh
+  #   - -c
+  #   - 'sleep 75 && python consumefromqueue.py'
+  #   # - 'sleep 75 &&  tail -f /etc/hosts'
+  #   # volumes:
+  #   # - ./secondpage-pythonutils/:/secondpage-pythonutils/
+  # python-utils11:
+  #   networks:
+  #   - secondpage_default
+  #   image: rlewkowicz/python-utils-1.0.0-sb
+  #   depends_on:
+  #     - rssparse-nginx
+  #     - consul
+  #   entrypoint:
+  #   - sh
+  #   - -c
+  #   - 'sleep 75 && python consumefromqueue.py'
+  #   # - 'sleep 75 &&  tail -f /etc/hosts'
+  #   # volumes:
+  #   # - ./secondpage-pythonutils/:/secondpage-pythonutils/
 
   python-utils-watcher:
     networks:

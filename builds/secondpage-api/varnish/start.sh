@@ -9,9 +9,8 @@ done
 
 exec bash -c \
     "exec varnishd \
-    -a :$VARNISH_PORT \
+    -a :80 \
     -T localhost:6082 \
-    -F -u varnish \
-    -f $VARNISH_CONFIG \
-    -s malloc,$CACHE_SIZE \
-    $VARNISHD_PARAMS"
+    -F \
+    -f /etc/varnish/default.vcl \
+    -s malloc,250M"
