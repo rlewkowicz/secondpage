@@ -117,10 +117,10 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && tail -f /etc/hosts'
+    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
-    volumes:
-    - ./secondpage-pythonutils/:/secondpage-pythonutils/
+    # volumes:
+    # - ./secondpage-pythonutils/:/secondpage-pythonutils/
   #python-utils
   python-utils1:
     networks:
