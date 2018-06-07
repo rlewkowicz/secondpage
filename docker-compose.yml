@@ -72,6 +72,10 @@ services:
     # - ./secondpage-api:/var/www
     depends_on:
       - api-php-fpm
+    # entrypoint:
+    # - sh
+    # - -c
+    # - 'tail -f /etc/hosts'
   # api-varnish:
   #   networks:
   #   - secondpage_default
