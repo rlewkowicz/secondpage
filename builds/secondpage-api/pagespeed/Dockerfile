@@ -20,7 +20,7 @@ COPY builds/secondpage-api/pagespeed/sites /etc/nginx/sites-available
 RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \
     && rm /etc/nginx/conf.d/default.conf
 
-RUN mkdir /tmp/ngx_pagespeed_cache && mkdir /var/cache/nginx/
+RUN mkdir /tmp/ngx_pagespeed_cache && mkdir /var/cache/nginx/ && mkdir /var/cache/nginxfastcgi
 
 CMD ["nginx"]
 
