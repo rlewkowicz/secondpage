@@ -15,15 +15,15 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #pythonutils
 (
 sed -i "s/ENV=.*/ENV=dev/g" $DIR/secondpage-pythonutils/.env && \
-docker build -f $DIR/builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0 && \
+docker build -f $DIR/builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/pythonutils:1.0.0 && \
 sed -i "s/ENV=.*/ENV=sb/g" $DIR/secondpage-pythonutils/.env && \
-docker build -f $DIR/builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/python-utils-1.0.0-sb
+docker build -f $DIR/builds/secondpage-pythonutils/Dockerfile . -t rlewkowicz/pythonutils:1.0.0-sb
 ) &
 
 
 #spark
-(docker build -f builds/secondpage-spark/Dockerfile . -t spark &) &
+(docker build -f builds/secondpage-spark/Dockerfile . -t rlewkowicz/spark &) &
 
 
 #render
-(docker build -f builds/secondpage-render/Dockerfile . -t render &) &
+(docker build -f builds/secondpage-render/Dockerfile . -t rlewkowicz/render &) &

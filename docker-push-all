@@ -1,0 +1,27 @@
+#!/bin/sh
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
+#Api
+(docker push  rlewkowicz/api:pagespeed-1.0.0 &) &
+(docker push  rlewkowicz/api:nginx-1.0.0 &) &
+(docker push  rlewkowicz/api:php-fpm-1.0.0 &) &
+
+#rssparse
+(docker push  rlewkowicz/rssparse:php-fpm-1.0.0 &) &
+(docker push  rlewkowicz/rssparse:nginx-1.0.0 &) &
+
+#pythonutils
+(
+docker push rlewkowicz/pythonutils:1.0.0 && \
+docker push rlewkowicz/pythonutils:1.0.0-sb
+) &
+
+
+#spark
+(docker push rlewkowicz/spark &) &
+
+
+#render
+(docker push rlewkowicz/render &) &
