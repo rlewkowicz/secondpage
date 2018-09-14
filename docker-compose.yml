@@ -121,7 +121,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python writetoqueue.py && python consumefromqueue.py'
+    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python3 writetoqueue.py && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -136,7 +136,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -151,7 +151,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -166,7 +166,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -181,7 +181,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -195,7 +195,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -209,7 +209,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -223,7 +223,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -237,7 +237,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -251,7 +251,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -265,7 +265,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -279,7 +279,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -293,7 +293,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -307,7 +307,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -321,7 +321,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 75 && python consumefromqueue.py'
+    - 'sleep 75 && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
@@ -337,7 +337,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 100 && python writetoqueue.py'
+    - 'sleep 100 && python3 writetoqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
