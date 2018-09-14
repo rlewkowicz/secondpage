@@ -52,14 +52,14 @@ services:
     - "127.0.0.1:8080:80"
     depends_on:
       - rssparse-php-fpm
-    volumes:
-    - ./secondpage-rssparse:/var/www
+    # volumes:
+    # - ./secondpage-rssparse:/var/www
   rssparse-php-fpm:
     networks:
     - secondpage_default
     image: rlewkowicz/rssparse:php-fpm-1.0.0
-    volumes:
-    - ./secondpage-rssparse:/var/www
+    # volumes:
+    # - ./secondpage-rssparse:/var/www
 
   #api
   api-nginx:
