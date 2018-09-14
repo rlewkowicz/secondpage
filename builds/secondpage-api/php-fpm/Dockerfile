@@ -160,7 +160,7 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 # ZipArchive:
 ###########################################################################
 
-ARG INSTALL_ZIP_ARCHIVE=false
+ARG INSTALL_ZIP_ARCHIVE=true
 
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
@@ -457,7 +457,8 @@ COPY ./builds/secondpage-api/php-fpm/xlaravel.pool.conf /usr/local/etc/php-fpm.d
 COPY ./builds/secondpage-api/php-fpm/php71.ini /usr/local/etc/php/php.ini
 COPY ./secondpage-api /var/www
 
-RUN chown -R www-data /var/www/ && cd /var/www/ && composer install
+
+RUN cd /var/www/ && composer install && chown -R www-data /var/www/
 
 
 
