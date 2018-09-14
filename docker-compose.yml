@@ -121,7 +121,7 @@ services:
     entrypoint:
     - sh
     - -c
-    - 'sleep 15 && curl rssparse-nginx/Lifestyle && python3 writetoqueue.py && python3 consumefromqueue.py'
+    - 'sleep 20 && curl rssparse-nginx/Lifestyle && python3 initcass.py && python3 writetoqueue.py && python3 consumefromqueue.py'
     # - 'sleep 75 &&  tail -f /etc/hosts'
     # volumes:
     # - ./secondpage-pythonutils/:/secondpage-pythonutils/
