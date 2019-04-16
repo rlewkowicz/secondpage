@@ -16,6 +16,8 @@ ARG PHP_VERSION=7.1
 
 FROM laradock/php-fpm:2.2-${PHP_VERSION}
 
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+
 
 #
 #--------------------------------------------------------------------------

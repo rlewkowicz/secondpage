@@ -5,7 +5,7 @@ services:
   consul:
     networks:
     - secondpage_default
-    image: consul
+    image: consul:1.0.0
     ports:
       - "127.0.0.1:8500:8500"
     entrypoint:
@@ -22,7 +22,7 @@ services:
   cassandra:
     networks:
     - secondpage_default
-    image: cassandra
+    image: cassandra:3.0.16 
     ports:
       - "127.0.0.1:7000:7000"
       - "127.0.0.1:9042:9042"
