@@ -1,3 +1,5 @@
+Current live example: http://104.196.132.130
+
 So this is a personal project I was working on. It's more impressive from an architectural than it is from a programmatical one.  You have a handful of micro services using Cassandra as a data store. It needs a rewrite but what it does is scrapes, stores, and summarizes news articles. It’s impressive because it stores the whole article in the site. 
 
 To clone everything (I didn’t want to use submodules): 
