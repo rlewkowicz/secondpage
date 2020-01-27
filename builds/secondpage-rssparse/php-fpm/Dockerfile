@@ -102,7 +102,7 @@ ARG INSTALL_BLACKFIRE=false
 
 RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
     version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
+    && curl -L -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
     && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
     && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
@@ -200,7 +200,7 @@ ARG INSTALL_MEMCACHED=false
 
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
+    curl -L -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
     && mkdir -p memcached \
     && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
     && ( \
@@ -238,7 +238,7 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
+    curl -L -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
@@ -336,8 +336,8 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
     ###########################################################################
     # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
     apt-get install -y apt-transport-https gnupg \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && curl -L https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl -L https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update -yqq \
     # Install Dependencies
     && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql locales \
@@ -412,8 +412,8 @@ RUN if [ true = true ]; then \
 
 
 RUN cd / && \
-curl http://downloads.datastax.com/cpp-driver/ubuntu/14.04/dependencies/libuv/v1.20.0/libuv-dev_1.20.0-1_amd64.deb > libuv-dev.deb && \
-curl http://downloads.datastax.com/cpp-driver/ubuntu/14.04/dependencies/libuv/v1.20.0/libuv_1.20.0-1_amd64.deb > libuv.deb && \
+curl -L http://downloads.datastax.com/cpp-driver/ubuntu/14.04/dependencies/libuv/v1.20.0/libuv-dev_1.20.0-1_amd64.deb > libuv-dev.deb && \
+curl -L http://downloads.datastax.com/cpp-driver/ubuntu/14.04/dependencies/libuv/v1.20.0/libuv_1.20.0-1_amd64.deb > libuv.deb && \
 dpkg -i libuv.deb && \
 dpkg -i libuv-dev.deb && \
 apt update && \
